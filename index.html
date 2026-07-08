@@ -96,4 +96,151 @@ iframe {
     height: 100%;
     border: none;
     position:relative;
-    z
+    z-index:1;
+}
+
+/* Power knop */
+
+#powerBtn{
+    position:absolute;
+    left:50%;
+    bottom:12px;
+    transform:translateX(-50%);
+    width:58px;
+    height:58px;
+    border:none;
+    border-radius:50%;
+    background:#111;
+    color:#ff4444;
+    font-size:30px;
+    cursor:pointer;
+    box-shadow:
+        0 0 12px rgba(0,0,0,.8),
+        inset 0 0 8px rgba(255,255,255,.15);
+    transition:.2s;
+}
+
+#powerBtn:hover{
+    background:#222;
+    transform:translateX(-50%) scale(1.08);
+}
+
+#powerBtn.on{
+    color:#00ff66;
+}
+
+/* NEXT knop — ronde grijze knop met witte pijl */
+#nextBtn{
+    position:absolute;
+    left:calc(50% + 80px); /* naast power knop */
+    bottom:12px;
+
+    width:58px;
+    height:58px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#111;
+    color:white;
+
+    font-size:28px; /* witte pijl grootte */
+    cursor:pointer;
+
+    box-shadow:
+        0 0 12px rgba(0,0,0,.8),
+        inset 0 0 8px rgba(255,255,255,.15);
+
+    transition:.2s;
+}
+
+#nextBtn:hover{
+    background:#222;
+    transform:scale(1.08);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="tv">
+
+    <div id="screen">
+
+        <img id="startImage"
+             src="RollingS.jpg"
+             alt="Startscherm">
+
+        <iframe id="player"
+            src=""
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+        </iframe>
+
+    </div>
+
+</div>
+
+<button id="powerBtn">⏻</button>
+<button id="nextBtn">▶</button>
+
+<script>
+
+const player = document.getElementById("player");
+const powerBtn = document.getElementById("powerBtn");
+const nextBtn = document.getElementById("nextBtn");
+const startImage = document.getElementById("startImage");
+
+const playlist = [
+    "MKLVmBOOqVU",
+    "SGyOaCXr8Lw",
+    "nrIPxlFzDi0",
+    "2K7jMLS-7iw",
+    "hic-dnps6MU",
+    "Ef9QnZVpVd8",
+    "opRRax4ph3E"
+];
+
+let index = 0;
+let tvOn = false;
+
+function playVideo(i){
+    player.src =
+        "https://www.youtube.com/embed/" +
+        playlist[i] +
+        "?autoplay=1&controls=0&rel=0&modestbranding=1&fs=1";
+}
+
+powerBtn.addEventListener("click", () => {
+
+    if(tvOn){
+        player.src = "";
+        startImage.style.display = "block";
+        powerBtn.classList.remove("on");
+        index = 0; // terug naar eerste nummer
+    } else {
+        startImage.style.display = "none";
+        playVideo(index);
+        powerBtn.classList.add("on");
+    }
+
+    tvOn = !tvOn;
+});
+
+nextBtn.addEventListener("click", () => {
+    if(!tvOn) return;
+
+    index++;
+    if(index >= playlist.length){
+        index = 0;
+    }
+
+    playVideo(index);
+});
+
+</script>
+
+</body>
+</html>
+
